@@ -16,7 +16,15 @@ type Address struct {
 }
 
 func handlerWelcome(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome, %s!", r.URL.Path[1:])
+	name := r.URL.Path[1:]
+	nickname, ok := r.URL.Query()["nickname"]
+
+	if ok {
+		fmt.Fprintf(w, "Welcome, %s! [%s]", name, nickname[0])
+	} else {
+		fmt.Fprintf(w, "Welcome, %s!", name)
+	}
+
 	defer r.Body.Close()
 }
 
